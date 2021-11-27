@@ -22,6 +22,9 @@ Show the 10 plots. What do these plots tell you about the potential success of e
 
 Exercise 6:
 Show the proof of theorem
+Proof is similar to
+![image](https://user-images.githubusercontent.com/19858452/143689754-8b41084d-746d-4ded-aacd-99c8b8d31843.png)
+
 
 Exercise 7:
 Show code FilterAway(mu,V,H)
