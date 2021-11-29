@@ -1,16 +1,33 @@
 A = diag([1:10]);
 v = ones(10,1);
-k = 8;
-[V,H] = ArnoldiMGS(A,v,k);
-[W,H2] = FilterAway(2,V,H);
 
-R = A*W(:,1:k-1)-W*H2;
-e = eig(H2(1:k-1,1:k-1));
+ V = [v/norm(v)];
+H = [];
+[V,H] = ExtendArnoldi(A,V,H);
 
-[V2,H3] = ExtendArnoldi(A,V,H);
-R = A*V2(:,1:k+1)-V2*H3;
-OrthoTest = V2*V2';
-ListRitzData(H3)
+while true
+   
+    c = input("What do you want to do? chose ex, filter, or exit ","s")
+   
+    if strcmp(c,"filter")
+        disp("The Ritz pairs and their resiudals are:")
+        mu = ListRitzData(H);
+        j = input("input the index of the eigenvalue you want to remove");
+        
+        [V,H] = FilterAway(mu(j),V,H);
+    end
+    
+    if strcmp(c,"ex")
+        [V2,H2] = ExtendArnoldi(A,V,H);
+       V = V2;
+       H = H2
+    end
+    
+    if strcmp(c,"exit")
+        ListRitzData(H)
+        return
+    end
+end
 
 
 function [W,H2] = FilterAway(mu,V,H)
@@ -53,25 +70,5 @@ function L = ListRitzData(H)
         ResultTable = [ResultTable newColumn];
     end
     display(ResultTable)
-end
-
-function [V,H] = ArnoldiMGS(A,v,k)
-v = v/norm(v); 
-V = v; H = [];
-n = size(v);
-
-for j=1:k
-    w = A*v;   
-    q = w;
-    for l = 1:size(V,2)
-        w = w-V(:,l)*(V(:,l)'*w);
-    end
-    g = norm(w);
-    
-    v = w/g;
-    h = V'*q;
-    
-    V = [V v];
-    H = [H,h; zeros(1,j-1),g];
-end
+    L =  diag(D);
 end
