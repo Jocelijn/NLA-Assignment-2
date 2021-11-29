@@ -7,7 +7,7 @@ k = 8;
 R = A*W(:,1:k-1)-W*H2;
 e = eig(H2(1:k-1,1:k-1));
 
-[V2,H3] = ExtendArnoldi(A,V,H);
+[V2,H3] = ExtendArnoldi(A,V,H)
 R = A*V2(:,1:k+1)-V2*H3;
 OrthoTest = V2*V2';
 ListRitzData(H3)
@@ -15,8 +15,10 @@ ListRitzData(H3)
 
 function [W,H2] = FilterAway(mu,V,H)
 size_h = size(H);
-k = size_h(2);
-[Q,R] =  qr(H- mu*eye(k+1,k),0);
+k = size_h(2)
+[Q,R] =  qr(H- mu*eye(k+1,k),0)
+size_q = size(Q)
+size_r = size(R)
 W = V*Q;
 
 H2 = R*Q(1:k,1:k-1)+mu*eye(k,k-1);
@@ -39,20 +41,19 @@ function [V2,H2] = ExtendArnoldi(A,V,H)
 end
 
 function L = ListRitzData(H)
-    size_H = size(H);
+    size_H = size(H)
     [V,D] = eig(H(1:size_H(2),1:size_H(2)));
     k = size_H(2);
     h = H(k+1,k);
     ResultTable = [k; abs(h)];
     for j = 1 : k
         eigenVec = V(:,j);
-        r = abs(h*eigenVec(k));
+        r = abs(h*eigenVec(k))
         eigenVal = D(j,j);
         
-        newColumn = [eigenVal;r];
-        ResultTable = [ResultTable newColumn];
+        newColumn = [eigenVal;r]
+        ResultTable = [ResultTable newColumn]
     end
-    display(ResultTable)
 end
 
 
