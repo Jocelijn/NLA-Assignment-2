@@ -49,3 +49,15 @@ Table=[Mu; T(k+1,k) r];
 disp(Table)
 
 end
+
+for n=1:j
+    Plot(j,n)=Table(1,n+1);
+end
+
+end
+
+color = rand(k,3);
+for t=1:k
+    plot(t,Plot(t,1:t), '-*','MarkerEdgeColor', color(t,:));
+    hold on;
+end
