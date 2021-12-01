@@ -56,30 +56,23 @@ k = size_h(2)
 
 
 
-V_k = V(:,1:k);
-H_k_kmin1 = H(1:k,1:k-1);
-H_kmin1_kmin2 = H(1:k-1,1:k-2);
-V_kmin1 = V(:,1:k-1);
-V_kmin2 = V(:,1:k-2);
+V_k = V(1:k,1:k)
+H_k_kmin1 = H(1:k,1:k-1)
+H_kmin1_kmin2 = H(1:k-1,1:k-2)
+V_kmin1 = V(1:k-1,1:k-1)
+V_kmin2 = V(1:k-2,1:k-2)
 
 
 
-P = V_k*H_k_kmin1*H_kmin1_kmin2 ;
-P = P - (mu + conj(mu))*V_kmin1*H_kmin1_kmin2 ;
+P = V_k*H_k_kmin1*H_kmin1_kmin2 
+P = P - (mu + conj(mu))*V_kmin1*H_kmin1_kmin2 
 P = P + abs(mu)^2*V_kmin2;
 
-size(P)
-size([1;zeros(k-3,1)]')
-newStart = P* ([1;zeros(k-3,1)])
-newStart2 =(A- mu*eye(n))*(A- conj(mu)*eye(n))*oldStart %H*H - (mu + conj(mu))+ abs(mu)^2*eye(k+1,k);
-
+newStart = P* [1;zeros(k-1,1)']
+newStart2 =(A- mu*eye(n))*oldStart %H*H - (mu + conj(mu))+ abs(mu)^2*eye(k+1,k);
 [Q,R] =  qr(P,0);
+W = V*Q;
 
-size(Q)
-size(V)
-size(V(:,1:k-2))
-W = (V(:,1:k-2)')*(Q);
-size(W)
 H2 = Q'*H*Q;%R*Q(1:k,1:k-1)+mu*eye(k,k-1);
 end
 
